@@ -62,7 +62,7 @@ export default function Home() {
         const aid = res.aid;
         localStorage.setItem("aid", aid);
         setIsArticleBtnDisabled(false)
-        handleSuccessAlert("success artiel aid: " + aid)
+        handleSuccessAlert("success article aid: " + aid)
       })
       .catch((err) => {
         console.log(err);
@@ -75,7 +75,7 @@ export default function Home() {
     setIsQstBtnDisabled(true);
     const aid = localStorage.getItem("aid");
     if (aid == null || aid === "") {
-      handleErrorAlert("dont have aid value" + aid);
+      handleErrorAlert("send article first");
       setIsQstBtnDisabled(false);
       return;
     }
@@ -243,9 +243,7 @@ export default function Home() {
 
         <code className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
           <p id="qdrant" className={`m-0 max-w-full text-sm opacity-50`}>
-            group rounded-lg border border-transparent px-5 py-4
-            transition-colors hover:border-gray-300 hover:bg-gray-100
-            hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30
+          "The correct answer is (B) To show the cleverness of Project Debater. The author mentions Noa Ovadia, Israel's former national debating champion, to highlight the impressive performance of Project Debater in defeating human opponents, including Ovadia, in a public debate in San Francisco."
           </p>
         </code>
       </div>

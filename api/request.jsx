@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const Service = axios.create({
-    // baseURL: 'https://www.baidu.com',
     baseURL: process.env.BASE_URL,
     timeout: 8000,
     // method: "POST",

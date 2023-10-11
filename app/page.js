@@ -16,6 +16,9 @@ export default function Home() {
   const [isSuccessVisible, setIsSuccessVisible] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
+  const [isArticleBtnDisabled, setIsArticleBtnDisabled] = useState(false);
+  const [isQstBtnDisabled, setIsQstBtnDisabled] = useState(false);
+
   const handleErrorAlert = (errorMessage) => {
     setIsErrorVisible(true);
     setErrorMessage(errorMessage);
@@ -34,6 +37,7 @@ export default function Home() {
 
   const handleArticleChange = (e) => {
     console.log("handleArticleChange" + e.target.value);
+    localStorage.removeItem("aid")
     setArticleValue(e.target.value);
   };
 
@@ -47,30 +51,37 @@ export default function Home() {
       handleErrorAlert("please input article");
       return;
     }
+    setIsArticleBtnDisabled(true)
     saveArticle(articleValue)
       .then((res) => {
         if (res.success === false) {
+          setIsArticleBtnDisabled(false)
           handleErrorAlert(JSON.stringify(res.messages));
           return;
         }
         const aid = res.aid;
         localStorage.setItem("aid", aid);
+        setIsArticleBtnDisabled(false)
         handleSuccessAlert("success artiel aid: " + aid)
       })
       .catch((err) => {
         console.log(err);
+        setIsArticleBtnDisabled(false)
         handleErrorAlert(err.message);
       });
   };
 
   const handleQueryAnswerClick = () => {
+    setIsQstBtnDisabled(true);
     const aid = localStorage.getItem("aid");
     if (aid == null || aid === "") {
       handleErrorAlert("dont have aid value" + aid);
+      setIsQstBtnDisabled(false);
       return;
     }
     if(questionValue == null || questionValue === '') {
       handleErrorAlert("please input question");
+      setIsQstBtnDisabled(false);
       return;
     }
     const param = {
@@ -91,9 +102,11 @@ export default function Home() {
         } else {
           console.log("ele not exist");
         }
+        setIsQstBtnDisabled(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsQstBtnDisabled(false);
         handleErrorAlert(err.message);
       });
   };
@@ -148,7 +161,7 @@ export default function Home() {
             onChange={handleArticleChange}
           />
           <div className="mt-10"></div>
-          <Button type="button" onClick={handleSaveArticleClick}>
+          <Button type="button" onClick={handleSaveArticleClick} disabled={isArticleBtnDisabled}>
             Send
           </Button>
         </div>
@@ -170,7 +183,7 @@ export default function Home() {
             onChange={handleQuestionChange}
           />
           <div className="mt-10"></div>
-          <Button type="button" onClick={handleQueryAnswerClick}>
+          <Button type="button" onClick={handleQueryAnswerClick} disabled={isQstBtnDisabled}>
             provide options
           </Button>
         </div>

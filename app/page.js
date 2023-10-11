@@ -7,28 +7,30 @@ import { AlertCircle, FileWarning, Terminal } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-export function AlertDestructive({ isVisible, errorMessage }) {
-  if (!isVisible) {
-    return null; // Return null to hide the component
-  }
-
-  return (
-    <Alert variant="destructive">
-      <AlertCircle className="h-4 w-4" />
-      <AlertTitle>Error</AlertTitle>
-      <AlertDescription>
-        {errorMessage || "An error occurred."}{" "}
-        {/* Use the provided error message or a default message */}
-      </AlertDescription>
-    </Alert>
-  );
-}
-
 export default function Home() {
   const [articleValue, setArticleValue] = useState("");
   const [questionValue, setQuestionValue] = useState("");
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [isSuccessVisible, setIsSuccessVisible] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleErrorAlert = (errorMessage) => {
+    setIsErrorVisible(true);
+    setErrorMessage(errorMessage);
+    setTimeout(() => {
+      setIsErrorVisible(false);
+    }, 3000);
+  };
+
+  const handleSuccessAlert = (successMessage) => {
+    setIsSuccessVisible(true);
+    setSuccessMessage(successMessage);
+    setTimeout(() => {
+      setIsSuccessVisible(false);
+    }, 3000);
+  };
 
   const handleArticleChange = (e) => {
     console.log("handleArticleChange" + e.target.value);
@@ -41,25 +43,34 @@ export default function Home() {
   };
 
   const handleSaveArticleClick = () => {
+    if(articleValue == null || articleValue == '') {
+      handleErrorAlert("please input article");
+      return;
+    }
     saveArticle(articleValue)
       .then((res) => {
-        console.log("res.aid" + res.aid);
-        aid = res.aid;
+        if (res.success === false) {
+          handleErrorAlert(JSON.stringify(res.messages));
+          return;
+        }
+        const aid = res.aid;
         localStorage.setItem("aid", aid);
+        handleSuccessAlert("success artiel aid: " + aid)
       })
       .catch((err) => {
         console.log(err);
-        setErrorMessage(err.message);
-        setIsErrorVisible(true);
+        handleErrorAlert(err.message);
       });
   };
 
   const handleQueryAnswerClick = () => {
     const aid = localStorage.getItem("aid");
     if (aid == null || aid === "") {
-      console.log("dont have aid value" + aid);
-      setErrorMessage("dont have aid value");
-      setIsErrorVisible(true);
+      handleErrorAlert("dont have aid value" + aid);
+      return;
+    }
+    if(questionValue == null || questionValue === '') {
+      handleErrorAlert("please input question");
       return;
     }
     const param = {
@@ -71,29 +82,55 @@ export default function Home() {
         console.log(res);
         const ele = document.getElementById("qdrant");
         if (ele) {
-          ele.innerText = JSON.stringify(res);
+          if(res.success == true) {
+            ele.innerText = JSON.stringify(res.result.response);
+            handleSuccessAlert("success")
+          } else {
+            handleErrorAlert(JSON.stringify(res.messages))
+          }
         } else {
           console.log("ele not exist");
         }
       })
       .catch((err) => {
         console.log(err);
-        setErrorMessage(err.message);
-        setIsErrorVisible(true);
+        handleErrorAlert(err.message);
       });
   };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {/* <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+        {/* <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
           <code className="font-mono font-bold">app/page.js</code>
-        </p>
-      </div> */}
-      <AlertDestructive
-        isVisible={isErrorVisible}
-        errorMessage={errorMessage}
-      />
+        </p> */}
+      </div>
+      {isErrorVisible && (
+        <Alert
+          variant="destructive"
+          className="alert-destructive fixed border-gray-300 dark:bg-zinc-800/30 dark:from-inherit pb-6 pt-8 lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30"
+        >
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            {errorMessage || "An error occurred."}{" "}
+            {/* Use the provided error message or a default message */}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {isSuccessVisible && (
+        <Alert
+          variant="destructive"
+          className="alert-destructive fixed border-green-500 dark:bg-green-500/30 dark:from-inherit pb-6 pt-8 lg:w-auto lg:rounded-xl lg:border lg:bg-green-100 lg:p-4 lg:dark:bg-green-500/30"
+        >
+          {/* <AlertCircle className="h-4 w-4 bg-green-800" /> */}
+          <AlertTitle className="text-black">Success</AlertTitle>
+          <AlertDescription className="text-black">
+            {successMessage || "success"}{" "}
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
         <h2 className="font-mono font-bold mb-3 text-2xl">
@@ -104,7 +141,8 @@ export default function Home() {
       <div className="grid w-full lg:grid-cols-2 gap-2">
         <div>
           <Textarea
-            placeholder="Type article here."
+            placeholder="article Example:&#10;
+               A machine can now not only beat you at chess, it can also outperform you in debate. Last week, in a public debate in San Francisco, a software program called Project Debater beat its human opponents, including Noa Ovadia, Israel's former national debating champion."
             type="text"
             value={articleValue}
             onChange={handleArticleChange}
@@ -117,7 +155,16 @@ export default function Home() {
 
         <div>
           <Textarea
-            placeholder="Type questions and options here."
+            placeholder="Question example: &#10;
+            Why does the author mention Noa Ovadia in the first paragraph? &#10;
+            
+            A. To explain the use of a software program.&#10;
+            
+            B. To show the cleverness of Project Debater.&#10;
+            
+            C. To introduce the designer of Project Debater.&#10;
+            
+            D. To emphasize the fairness of the competition. &#10;"
             type="text"
             value={questionValue}
             onChange={handleQuestionChange}

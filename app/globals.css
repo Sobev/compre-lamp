@@ -74,3 +74,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+.alert-destructive {
+  animation: fadeOut 4s linear;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.8;
+  }
+}

@@ -113,7 +113,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 <div class="flex items-center justify-center">
-    <a href="https://github.com/Sobev/compre-guacamole" target="_blank" rel="noopener noreferrer" class="flex items-center bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+    <a href="https://github.com/Sobev/compre-guacamole" target="_blank" rel="noopener noreferrer" class="flex items-center bg-white-500 text-black font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 1792 1792">
             <path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
             </path>

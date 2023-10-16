@@ -112,15 +112,6 @@ export default function Home() {
   };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-<div class="flex items-center justify-center">
-    <a href="https://github.com/Sobev/compre-guacamole" target="_blank" rel="noopener noreferrer" class="flex items-center bg-white-500 text-black font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 1792 1792">
-            <path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
-            </path>
-        </svg>
-      Star me on GitHub
-    </a>
-  </div>
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         {/* <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
@@ -155,9 +146,16 @@ export default function Home() {
       )}
 
       <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-        <h2 className="font-mono font-bold mb-3 text-2xl">
+        <h2 className="font-mono font-bold mb-3 mr-3 text-2xl">
           English reading comprehension{" "}
         </h2>
+        <a href="https://github.com/Sobev/compre-guacamole" target="_blank" rel="noopener noreferrer" class="flex items-center mb-3 bg-white-500 text-black font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 1792 1792">
+            <path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
+            </path>
+        </svg>
+      Star me on GitHub
+    </a>
       </div>
 
       <div className="grid w-full lg:grid-cols-2 gap-2">

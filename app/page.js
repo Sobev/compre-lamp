@@ -37,7 +37,7 @@ export default function Home() {
 
   const handleArticleChange = (e) => {
     console.log("handleArticleChange" + e.target.value);
-    localStorage.removeItem("aid")
+    localStorage.removeItem("aid");
     setArticleValue(e.target.value);
   };
 
@@ -47,26 +47,26 @@ export default function Home() {
   };
 
   const handleSaveArticleClick = () => {
-    if(articleValue == null || articleValue == '') {
+    if (articleValue == null || articleValue == "") {
       handleErrorAlert("please input article");
       return;
     }
-    setIsArticleBtnDisabled(true)
+    setIsArticleBtnDisabled(true);
     saveArticle(articleValue)
       .then((res) => {
         if (res.success === false) {
-          setIsArticleBtnDisabled(false)
+          setIsArticleBtnDisabled(false);
           handleErrorAlert(JSON.stringify(res.messages));
           return;
         }
         const aid = res.aid;
         localStorage.setItem("aid", aid);
-        setIsArticleBtnDisabled(false)
-        handleSuccessAlert("success article aid: " + aid)
+        setIsArticleBtnDisabled(false);
+        handleSuccessAlert("success article aid: " + aid);
       })
       .catch((err) => {
         console.log(err);
-        setIsArticleBtnDisabled(false)
+        setIsArticleBtnDisabled(false);
         handleErrorAlert(err.message);
       });
   };
@@ -79,7 +79,7 @@ export default function Home() {
       setIsQstBtnDisabled(false);
       return;
     }
-    if(questionValue == null || questionValue === '') {
+    if (questionValue == null || questionValue === "") {
       handleErrorAlert("please input question");
       setIsQstBtnDisabled(false);
       return;
@@ -93,11 +93,11 @@ export default function Home() {
         console.log(res);
         const ele = document.getElementById("qdrant");
         if (ele) {
-          if(res.success == true) {
+          if (res.success == true) {
             ele.innerText = JSON.stringify(res.result.response);
-            handleSuccessAlert("success")
+            handleSuccessAlert("success");
           } else {
-            handleErrorAlert(JSON.stringify(res.messages))
+            handleErrorAlert(JSON.stringify(res.messages));
           }
         } else {
           console.log("ele not exist");
@@ -112,6 +112,15 @@ export default function Home() {
   };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+<div class="flex items-center justify-center">
+    <a href="https://github.com/Sobev/compre-guacamole" target="_blank" rel="noopener noreferrer" class="flex items-center bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition duration-300 transform hover:scale-105">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 1792 1792">
+            <path d="M1728 647q0 22-26 48l-363 354 86 500q1 7 1 20 0 21-10.5 35.5t-30.5 14.5q-19 0-40-12l-449-236-449 236q-22 12-40 12-21 0-31.5-14.5t-10.5-35.5q0-6 2-20l86-500-364-354q-25-27-25-48 0-37 56-46l502-73 225-455q19-41 49-41t49 41l225 455 502 73q56 9 56 46z">
+            </path>
+        </svg>
+      Star me on GitHub
+    </a>
+  </div>
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         {/* <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
@@ -161,7 +170,11 @@ export default function Home() {
             onChange={handleArticleChange}
           />
           <div className="mt-10"></div>
-          <Button type="button" onClick={handleSaveArticleClick} disabled={isArticleBtnDisabled}>
+          <Button
+            type="button"
+            onClick={handleSaveArticleClick}
+            disabled={isArticleBtnDisabled}
+          >
             Send
           </Button>
         </div>
@@ -183,7 +196,11 @@ export default function Home() {
             onChange={handleQuestionChange}
           />
           <div className="mt-10"></div>
-          <Button type="button" onClick={handleQueryAnswerClick} disabled={isQstBtnDisabled}>
+          <Button
+            type="button"
+            onClick={handleQueryAnswerClick}
+            disabled={isQstBtnDisabled}
+          >
             provide options
           </Button>
         </div>
@@ -243,7 +260,11 @@ export default function Home() {
 
         <code className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30">
           <p id="qdrant" className={`m-0 max-w-full text-sm opacity-50`}>
-          "The correct answer is (B) To show the cleverness of Project Debater. The author mentions Noa Ovadia, Israel's former national debating champion, to highlight the impressive performance of Project Debater in defeating human opponents, including Ovadia, in a public debate in San Francisco."
+            "The correct answer is (B) To show the cleverness of Project
+            Debater. The author mentions Noa Ovadia, Israel's former national
+            debating champion, to highlight the impressive performance of
+            Project Debater in defeating human opponents, including Ovadia, in a
+            public debate in San Francisco."
           </p>
         </code>
       </div>
